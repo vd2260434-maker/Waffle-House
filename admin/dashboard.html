@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard Gateway | WAFFLE HOUSE</title>
+  <script src="../js/auth.js"></script>
+  <script>
+    if (window.WaffleAuth && window.WaffleAuth.isAdminAuthenticated()) {
+      window.location.replace('dashboard/index.html');
+    } else {
+      window.location.replace('login/index.html');
+    }
+  </script>
+</head>
+<body style="background: #0D0603; color: #D4AF37; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh;">
+  <p>Authenticating administrator session...</p>
+</body>
+</html>

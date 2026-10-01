@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | WAFFLE HOUSE</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="../../assets/images/favicon.svg">
+  
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Admin Styles -->
+  <link rel="stylesheet" href="../../css/admin.css">
+
+  <!-- Core Store & Auth Modules -->
+  <script src="../../js/store.js"></script>
+  <script src="../../js/auth.js"></script>
+
+  <!-- STRICT ROUTE GUARD: Prevent flash of unauthenticated admin interface -->
+  <script>
+    (function() {
+      if (!window.WaffleAuth || !window.WaffleAuth.isAdminAuthenticated()) {
+        window.location.replace('../login/index.html');
+      }
+    })();
+  </script>
+</head>
+<body class="admin-body">
+
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <div class="brand-crest">
+          <i class="fa-solid fa-crown" style="color: var(--admin-gold); font-size: 1.2rem;"></i>
+        </div>
+        <div>
+          <div class="brand-name">WAFFLE HOUSE</div>
+          <div class="brand-sub">Executive Operations Portal</div>
+        </div>
+      </div>
+
+      <nav class="admin-sidebar-nav">
+        <div class="nav-section-label">Core Operations</div>
+        <div class="admin-nav-item">
+          <button class="active" data-tab="overview">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Overview</span>
+          </button>
+        </div>
+        <div class="admin-nav-item">
+          <button data-tab="orders">
+            <i class="fa-solid fa-bell-concierge"></i>
+            <span>Kitchen & Orders</span>
+          </button>
+        </div>
+        <div class="admin-nav-item">
+          <button data-tab="products">
+            <i class="fa-solid fa-cookie-bite"></i>
+            <span>Waffle Products</span>
+          </button>
+        </div>
+        <div class="admin-nav-item">
+          <button data-tab="categories">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>Categories</span>
+          </button>
+        </div>
+
+        <div class="nav-section-label">Commerce & Growth</div>
+        <div class="admin-nav-item">
+          <button data-tab="pricing">
+            <i class="fa-solid fa-indian-rupee-sign"></i>
+            <span>₹ INR Pricing</span>
+          </button>
+        </div>
+        <div class="admin-nav-item">
+          <button data-tab="offers">
+            <i class="fa-solid fa-tags"></i>
+            <span>Offers & Vouchers</span>
+          </button>
+        </div>
+        <div class="admin-nav-item">
+          <button data-tab="customers">
+            <i class="fa-solid fa-users"></i>
+            <span>Customer Registry</span>
+          </button>
+        </div>
+
+        <div class="nav-section-label">Boutique Management</div>
+        <div class="admin-nav-item">
+          <button data-tab="locations">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>Store Locations</span>
+          </button>
+        </div>
+        <div class="admin-nav-item">
+          <button data-tab="reviews">
+            <i class="fa-solid fa-star"></i>
+            <span>Reviews & Feedback</span>
+          </button>
+        </div>
+        <div class="admin-nav-item">
+          <button data-tab="settings">
+            <i class="fa-solid fa-sliders"></i>
+            <span>System Settings</span>
+          </button>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="../../index.html" class="customer-site-link">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          <span>VIEW CUSTOMER WEBSITE</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN WRAPPER -->
+    <div class="admin-main">
+      <!-- HEADER -->
+      <header class="admin-header">
+        <div>
+          <h1 class="header-title" id="header-page-title">Executive Operations & Real-Time Metrics</h1>
+          <p class="header-sub">Authorized Administrator Session • Role: <strong>ADMIN</strong></p>
+        </div>
+
+        <div class="header-actions">
+          <a href="../../index.html" class="admin-action-btn secondary">
+            <i class="fa-solid fa-store"></i>
+            <span>View Customer Website</span>
+          </a>
+
+          <div class="admin-user-pill">
+            <div class="user-avatar">
+              <i class="fa-solid fa-user-shield"></i>
+            </div>
+            <div class="user-meta">
+              <span class="user-name">Vijay (Executive)</span>
+              <span class="user-role">SUPER ADMIN</span>
+            </div>
+          </div>
+
+          <button id="admin-logout-btn" class="admin-action-btn danger">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>LOGOUT</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- CONTENT PANELS -->
+      <main class="admin-content">
+
+        <!-- 1. OVERVIEW PANEL -->
+        <section id="panel-overview" class="admin-tab-panel active">
+          <!-- Metric Cards -->
+          <div class="admin-grid-metrics">
+            <div class="metric-card gold">
+              <div class="metric-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+              <div class="metric-info">
+                <span class="metric-title">Gross Revenue</span>
+                <span class="metric-value" id="metric-revenue">₹0</span>
+                <span class="metric-trend up"><i class="fa-solid fa-arrow-trend-up"></i> +18.4% this week</span>
+              </div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-icon"><i class="fa-solid fa-receipt"></i></div>
+              <div class="metric-info">
+                <span class="metric-title">Total Orders</span>
+                <span class="metric-value" id="metric-total-orders">0</span>
+                <span class="metric-trend"><i class="fa-solid fa-clock"></i> All-time orders</span>
+              </div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-icon"><i class="fa-solid fa-calendar-day"></i></div>
+              <div class="metric-info">
+                <span class="metric-title">Today's Orders</span>
+                <span class="metric-value" id="metric-today-orders">0</span>
+                <span class="metric-trend up"><i class="fa-solid fa-bolt"></i> Live kitchen queue</span>
+              </div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-icon" style="color: var(--admin-gold);"><i class="fa-solid fa-fire-burner"></i></div>
+              <div class="metric-info">
+                <span class="metric-title">Pending & Preparing</span>
+                <span class="metric-value" id="metric-pending-orders">0</span>
+                <span class="metric-trend"><i class="fa-solid fa-hourglass-half"></i> Kitchen active</span>
+              </div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-icon" style="color: var(--admin-green);"><i class="fa-solid fa-circle-check"></i></div>
+              <div class="metric-info">
+                <span class="metric-title">Completed Orders</span>
+                <span class="metric-value" id="metric-completed-orders">0</span>
+                <span class="metric-trend up"><i class="fa-solid fa-check"></i> Dispatched / Delivered</span>
+              </div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-icon"><i class="fa-solid fa-users"></i></div>
+              <div class="metric-info">
+                <span class="metric-title">Total Customers</span>
+                <span class="metric-value" id="metric-total-customers">0</span>
+                <span class="metric-trend"><i class="fa-solid fa-heart"></i> India waffle lovers</span>
+              </div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-icon"><i class="fa-solid fa-cookie-bite"></i></div>
+              <div class="metric-info">
+                <span class="metric-title">Active Menu Items</span>
+                <span class="metric-value" id="metric-total-products">0</span>
+                <span class="metric-trend"><i class="fa-solid fa-tag"></i> 100% Belgian Liege</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Orders Section -->
+          <div class="admin-card" style="margin-top: 1.5rem;">
+            <div class="admin-card-header">
+              <div>
+                <h3 class="admin-card-title"><i class="fa-solid fa-clock-rotate-left" style="color: var(--admin-gold); margin-right: 0.5rem;"></i> Recent Kitchen Orders</h3>
+                <p class="admin-card-sub">Live customer orders across Indian boutique stores</p>
+              </div>
+              <button class="admin-action-btn secondary" onclick="waffleAdmin.switchTab('orders')">
+                <span>View Full Kitchen Ledger</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+            <div class="admin-table-container">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th>Kitchen Status</th>
+                    <th>Date / Time</th>
+                  </tr>
+                </thead>
+                <tbody id="overview-recent-orders-tbody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. PRODUCTS PANEL -->
+        <section id="panel-products" class="admin-tab-panel">
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <div>
+                <h3 class="admin-card-title"><i class="fa-solid fa-cookie-bite" style="color: var(--admin-gold); margin-right: 0.5rem;"></i> Waffle Product Catalogue</h3>
+                <p class="admin-card-sub">Manage waffles, pricing, descriptions, and availability. Changes update customer menu in real-time.</p>
+              </div>
+              <button class="admin-action-btn primary" onclick="waffleAdmin.openAddProductModal()">
+                <i class="fa-solid fa-plus"></i>
+                <span>Add Waffle Product</span>
+              </button>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="admin-filter-bar">
+              <div class="admin-search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="product-search-input" placeholder="Search by waffle name or description..." />
+              </div>
+              <div class="admin-filter-group">
+                <select id="product-cat-filter" class="admin-select">
+                  <option value="all">All Categories</option>
+                  <option value="classic">Classic</option>
+                  <option value="chocolate">Chocolate</option>
+                  <option value="fruit">Fruit</option>
+                  <option value="premium">Premium</option>
+                  <option value="special">Special</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="admin-table-container">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Availability</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="products-table-tbody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. CATEGORIES PANEL -->
+        <section id="panel-categories" class="admin-tab-panel">
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <div>
+                <h3 class="admin-card-title"><i class="fa-solid fa-layer-group" style="color: var(--admin-gold); margin-right: 0.5rem;"></i> Menu Category Management</h3>
+                <p class="admin-card-sub">Organize customer storefront filters (Classic, Chocolate, Fruit, Premium, Special)</p>
+              </div>
+              <button class="admin-action-btn primary" onclick="waffleAdmin.openAddCategoryModal()">
+                <i class="fa-solid fa-plus"></i>
+                <span>Create Category</span>
+              </button>
+            </div>
+
+            <div class="admin-table-container">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Category Name</th>
+                    <th>Slug ID</th>
+                    <th>Items Count</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="categories-table-tbody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. ORDERS PANEL -->
+        <section id="panel-orders" class="admin-tab-panel">
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <div>
+                <h3 class="admin-card-title"><i class="fa-solid fa-bell-concierge" style="color: var(--admin-gold); margin-right: 0.5rem;"></i> Customer Orders & Kitchen Dispatch</h3>
+                <p class="admin-card-sub">Real-time order ledger. Update status to update customer order tracking.</p>
+              </div>
+            </div>
+
+            <div class="admin-filter-bar">
+              <div class="admin-search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="order-search-input" placeholder="Search by Order ID (#WH-...) or Customer Name..." />
+              </div>
+              <div class="admin-filter-group">
+                <select id="order-status-filter" class="admin-select">
+                  <option value="all">All Statuses</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Confirmed">Confirmed</option>
+                  <option value="Preparing">Preparing</option>
+                  <option value="Ready">Ready</option>
+                  <option value="Completed">Completed</option>
+                  <option value="Cancelled">Cancelled</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="admin-table-container">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Order Reference</th>
+                    <th>Customer & Address</th>
+                    <th>Waffle Items</th>
+                    <th>Amount & Payment</th>
+                    <th>Kitchen Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="orders-table-tbody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. CUSTOMERS PANEL -->
+        <section id="panel-customers" class="admin-tab-panel">
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <div>
+                <h3 class="admin-card-title"><i class="fa-solid fa-users" style="color: var(--admin-gold); margin-right: 0.5rem;"></i> Customer Registry & Order History</h3>
+                <p class="admin-card-sub">Verified customer accounts and checkout profiles. Protected privacy controls.</p>
+              </div>
+            </div>
+
+            <div class="admin-filter-bar">
+              <div class="admin-search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="customer-search-input" placeholder="Search customer by name, email, or phone number..." />
+              </div>
+            </div>
+
+            <div class="admin-table-container">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Customer ID</th>
+                    <th>Name</th>
+                    <th>Email Address</th>
+                    <th>Phone</th>
+                    <th>Total Orders</th>
+                    <th>Total Spent</th>
+                    <th>Tier / Status</th>
+                  </tr>
+                </thead>
+                <tbody id="customers-table-tbody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. PRICING PANEL -->
+        <section id="panel-pricing" class="admin-tab-panel">
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <div>
+                <h3 class="admin-card-title"><i class="fa-solid fa-indian-rupee-sign" style="color: var(--admin-gold); margin-right: 0.5rem;"></i> Real-Time ₹ INR Price Configuration</h3>
+                <p class="admin-card-sub">Fast bulk price adjustments. Changing prices here immediately synchronizes with the customer storefront.</p>
+              </div>
+            </div>
+
+            <div class="admin-table-container">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Waffle Product</th>
+                    <th>Category</th>
+                    <th>Current Price (₹ INR)</th>
+                    <th>Quick Action</th>
+                  </tr>
+                </thead>
+                <tbody id="pricing-table-tbody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. OFFERS & COUPONS PANEL -->
+        <section id="panel-offers" class="admin-tab-panel">
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <div>
+                <h3 class="admin-card-title"><i class="fa-solid fa-tags" style="color: var(--admin-gold); margin-right: 0.5rem;"></i> Promotional Offers & Voucher Codes</h3>
+                <p class="admin-card-sub">Manage active discounts for the Indian market.</p>
+              </div>
+              <button class="admin-action-btn primary" onclick="waffleAdmin.openAddOfferModal()">
+                <i class="fa-solid fa-plus"></i>
+                <span>Create Offer Code</span>
+              </button>
+            </div>
+
+            <div class="admin-table-container">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Voucher Code</th>
+                    <th>Offer Title</th>
+                    <th>Discount</th>
+                    <th>Min. Order</th>
+                    <th>Valid Till</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="offers-table-tbody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8. LOCATIONS PANEL -->
+        <section id="panel-locations" class="admin-tab-panel">
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <div>
+                <h3 class="admin-card-title"><i class="fa-solid fa-location-dot" style="color: var(--admin-gold); margin-right: 0.5rem;"></i> Boutique Store Locations (India)</h3>
+                <p class="admin-card-sub">Configure real WAFFLE HOUSE boutiques in Bengaluru, Mumbai, Delhi NCR, and Hyderabad.</p>
+              </div>
+              <button class="admin-action-btn primary" onclick="waffleAdmin.openAddLocationModal()">
+                <i class="fa-solid fa-plus"></i>
+                <span>Add Boutique Location</span>
+              </button>
+            </div>
+
+            <div class="admin-table-container">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Boutique Name</th>
+                    <th>City</th>
+                    <th>Full Address</th>
+                    <th>Direct Phone</th>
+                    <th>Hours</th>
+                    <th>Store Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="locations-table-tbody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 9. REVIEWS PANEL -->
+        <section id="panel-reviews" class="admin-tab-panel">
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <div>
+                <h3 class="admin-card-title"><i class="fa-solid fa-star" style="color: var(--admin-gold); margin-right: 0.5rem;"></i> Customer Reviews & Moderation</h3>
+                <p class="admin-card-sub">Moderate feedback, ratings, and customer testimonials.</p>
+              </div>
+            </div>
+
+            <div class="admin-table-container">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Reviewer</th>
+                    <th>Rating</th>
+                    <th>Product</th>
+                    <th>Comment</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="reviews-table-tbody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 10. SETTINGS PANEL -->
+        <section id="panel-settings" class="admin-tab-panel">
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <div>
+                <h3 class="admin-card-title"><i class="fa-solid fa-sliders" style="color: var(--admin-gold); margin-right: 0.5rem;"></i> Boutique Brand & System Settings</h3>
+                <p class="admin-card-sub">Store metadata, Indian GST taxation rules, delivery charges, and concierge contact details.</p>
+              </div>
+            </div>
+
+            <form id="settings-form" style="max-width: 720px; padding: 1.5rem 0;">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Brand Name</label>
+                  <input type="text" id="set-brand" class="form-control" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Brand Tagline</label>
+                  <input type="text" id="set-tagline" class="form-control" required />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Concierge Support Email</label>
+                  <input type="email" id="set-email" class="form-control" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Support Phone (India)</label>
+                  <input type="text" id="set-phone" class="form-control" required />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">GST Tax Rate (%)</label>
+                  <input type="number" id="set-gst" class="form-control" min="0" max="28" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Flat Delivery Charge (₹)</label>
+                  <input type="number" id="set-delivery" class="form-control" min="0" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Operating Boutique Hours</label>
+                <input type="text" id="set-hours" class="form-control" required />
+              </div>
+
+              <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1.5rem;">
+                <button type="submit" class="admin-action-btn primary" style="padding: 12px 24px;">
+                  <i class="fa-solid fa-floppy-disk"></i>
+                  <span>Save System Settings</span>
+                </button>
+                <button type="button" class="admin-action-btn danger" onclick="waffleAdmin.resetStoreDefaults()" style="padding: 12px 20px;">
+                  <i class="fa-solid fa-rotate-left"></i>
+                  <span>Reset Demo Data to Factory Defaults</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- MODALS -->
+
+  <!-- Product Modal -->
+  <div id="modal-product" class="admin-modal-overlay">
+    <div class="admin-modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="product-modal-title">Edit Waffle Product</h3>
+        <button class="modal-close" onclick="waffleAdmin.closeModal('modal-product')">&times;</button>
+      </div>
+      <form id="product-form">
+        <input type="hidden" id="prod-id-field" />
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Product Name *</label>
+            <input type="text" id="prod-name" class="form-control" required placeholder="e.g. Belgian Chocolate Overload" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Price (₹ INR) *</label>
+            <input type="number" id="prod-price" class="form-control" required min="1" placeholder="240" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Category *</label>
+            <select id="prod-category" class="form-control" required>
+              <option value="classic">Classic</option>
+              <option value="chocolate">Chocolate</option>
+              <option value="fruit">Fruit</option>
+              <option value="premium">Premium</option>
+              <option value="special">Special</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Badge Tag</label>
+            <input type="text" id="prod-badge" class="form-control" placeholder="e.g. Bestseller, Chef's Choice" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Image Path / URL</label>
+          <input type="text" id="prod-image" class="form-control" placeholder="assets/images/chocolate-waffle.jpg" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea id="prod-desc" class="form-control" rows="3" placeholder="Artisanal waffle with rich dark chocolate..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Tags (comma separated)</label>
+          <input type="text" id="prod-tags" class="form-control" placeholder="Chocolate, Liege, Crispy" />
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="admin-action-btn secondary" onclick="waffleAdmin.closeModal('modal-product')">Cancel</button>
+          <button type="submit" class="admin-action-btn primary"><i class="fa-solid fa-floppy-disk"></i> Save Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Category Modal -->
+  <div id="modal-category" class="admin-modal-overlay">
+    <div class="admin-modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Create Menu Category</h3>
+        <button class="modal-close" onclick="waffleAdmin.closeModal('modal-category')">&times;</button>
+      </div>
+      <form id="category-form">
+        <div class="form-group">
+          <label class="form-label">Category Slug ID *</label>
+          <input type="text" id="cat-id-field" class="form-control" required placeholder="e.g. seasonal" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category Display Name *</label>
+          <input type="text" id="cat-name-field" class="form-control" required placeholder="e.g. Seasonal Festivities" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">FontAwesome Icon Class</label>
+          <input type="text" id="cat-icon-field" class="form-control" placeholder="fa-tag" />
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="admin-action-btn secondary" onclick="waffleAdmin.closeModal('modal-category')">Cancel</button>
+          <button type="submit" class="admin-action-btn primary"><i class="fa-solid fa-floppy-disk"></i> Save Category</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Offer Modal -->
+  <div id="modal-offer" class="admin-modal-overlay">
+    <div class="admin-modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Create Voucher Offer</h3>
+        <button class="modal-close" onclick="waffleAdmin.closeModal('modal-offer')">&times;</button>
+      </div>
+      <form id="offer-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Coupon Code *</label>
+            <input type="text" id="offer-code" class="form-control" required placeholder="e.g. FESTIVE20" style="text-transform: uppercase;" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Discount Type *</label>
+            <select id="offer-type" class="form-control">
+              <option value="percentage">Percentage (%)</option>
+              <option value="flat">Flat Amount (₹)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Discount Value *</label>
+            <input type="number" id="offer-val" class="form-control" required min="1" placeholder="20" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Min. Order Amount (₹)</label>
+            <input type="number" id="offer-min" class="form-control" min="0" placeholder="299" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Offer Title / Description *</label>
+          <input type="text" id="offer-title" class="form-control" required placeholder="20% off on premium artisanal waffles" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Expiry Date</label>
+          <input type="date" id="offer-expiry" class="form-control" />
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="admin-action-btn secondary" onclick="waffleAdmin.closeModal('modal-offer')">Cancel</button>
+          <button type="submit" class="admin-action-btn primary"><i class="fa-solid fa-floppy-disk"></i> Save Offer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Location Modal -->
+  <div id="modal-location" class="admin-modal-overlay">
+    <div class="admin-modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Store Location</h3>
+        <button class="modal-close" onclick="waffleAdmin.closeModal('modal-location')">&times;</button>
+      </div>
+      <form id="location-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Boutique Name *</label>
+            <input type="text" id="loc-name" class="form-control" required placeholder="e.g. Indiranagar Boutique" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">City *</label>
+            <input type="text" id="loc-city" class="form-control" required placeholder="e.g. Bengaluru" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Full Street Address *</label>
+          <textarea id="loc-address" class="form-control" rows="2" required placeholder="100 Feet Road, HAL 2nd Stage..."></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Phone Contact *</label>
+            <input type="text" id="loc-phone" class="form-control" required placeholder="+91 80 4123 4567" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Operating Hours</label>
+            <input type="text" id="loc-hours" class="form-control" placeholder="Mon-Sun: 9:00 AM - 1:00 AM" />
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="admin-action-btn secondary" onclick="waffleAdmin.closeModal('modal-location')">Cancel</button>
+          <button type="submit" class="admin-action-btn primary"><i class="fa-solid fa-floppy-disk"></i> Save Location</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Controller Script -->
+  <script src="../../js/admin.js"></script>
+</body>
+</html>

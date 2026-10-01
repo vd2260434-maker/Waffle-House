@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WAFFLE HOUSE • Authorized Admin Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="../../css/admin.css" />
+  
+  <script src="../../js/store.js"></script>
+  <script src="../../js/auth.js"></script>
+</head>
+<body class="admin-body">
+  <div class="admin-login-wrapper">
+    <div class="login-backdrop-glow"></div>
+
+    <div class="admin-login-card">
+      <div class="admin-login-logo">
+        <i class="fa-solid fa-stroopwafel"></i>
+        <h1>WAFFLE HOUSE</h1>
+      </div>
+      <span class="admin-portal-badge"><i class="fa-solid fa-shield-halved"></i> ADMIN PORTAL</span>
+      <p class="admin-login-subtitle">Secure Management & Boutique Operations</p>
+
+      <!-- Error message banner -->
+      <div id="admin-login-error" class="admin-login-error">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <span id="error-text">Invalid admin credentials</span>
+      </div>
+
+      <!-- Login Form -->
+      <form id="admin-login-form" class="admin-login-form">
+        <div class="login-form-group">
+          <label for="admin-username">Admin Username</label>
+          <div class="login-input-wrap">
+            <i class="fa-solid fa-user-shield"></i>
+            <input type="text" id="admin-username" required placeholder="Enter admin username" autocomplete="username" />
+          </div>
+        </div>
+
+        <div class="login-form-group">
+          <label for="admin-password">Password</label>
+          <div class="login-input-wrap">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="admin-password" required placeholder="Enter secure password" autocomplete="current-password" />
+          </div>
+        </div>
+
+        <button type="submit" class="login-btn" id="admin-login-btn">
+          <span>Authenticate & Access Dashboard</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </form>
+
+      <div class="admin-login-footer">
+        <p>Restricted internal system. All session events are monitored.</p>
+        <p style="margin-top: 0.4rem;"><a href="../../index.html"><i class="fa-solid fa-arrow-left"></i> Return to Storefront</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // If already authenticated as admin, redirect directly to dashboard
+    if (window.WaffleAuth && window.WaffleAuth.isAdminAuthenticated()) {
+      window.location.replace('../dashboard/index.html');
+    }
+
+    const form = document.getElementById('admin-login-form');
+    const userInput = document.getElementById('admin-username');
+    const passInput = document.getElementById('admin-password');
+    const errorBanner = document.getElementById('admin-login-error');
+    const errorText = document.getElementById('error-text');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      errorBanner.classList.remove('show');
+
+      const u = userInput.value.trim();
+      const p = passInput.value.trim();
+
+      const result = window.WaffleAuth.loginAdmin(u, p);
+      if (result.success) {
+        window.location.replace('../dashboard/index.html');
+      } else {
+        errorText.textContent = result.error || 'Invalid admin credentials';
+        errorBanner.classList.add('show');
+        passInput.value = '';
+        passInput.focus();
+      }
+    });
+  </script>
+</body>
+</html>

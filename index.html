@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="WAFFLE HOUSE - Artisanal Belgian waffles, handcrafted brioche dough, caramelized pearl sugar, and molten Belgian chocolate. Order online or customize your dream waffle." />
+  <title>WAFFLE HOUSE | Crispy Outside. Soft Inside.</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="loading-active">
+
+  <!-- ==============================================
+       1. LUXURY 8-STEP FOOD COMMERCIAL INTRO
+       Sequence: Batter pours → Iron closes → Heat/glow increases →
+                 Waffle cooks → Steam rises → Waffle reveals →
+                 WAFFLE HOUSE logo appears → Enter website
+       ============================================== -->
+  <div id="preloader" class="preloader">
+    <div class="preloader-content">
+      <!-- Skip intro button -->
+      <button class="skip-intro-btn" id="skip-intro-btn" aria-label="Skip Commercial Intro">
+        <span>Skip Intro</span>
+        <i class="fa-solid fa-forward-step"></i>
+      </button>
+
+      <!-- Food Commercial Stage Chamber -->
+      <div class="intro-commercial-chamber" id="intro-commercial-chamber">
+        
+        <!-- Step 1: Creamy Batter Pour Stream -->
+        <div class="intro-batter-pour" id="intro-batter-pour">
+          <div class="batter-stream"></div>
+          <div class="batter-puddle"></div>
+        </div>
+
+        <!-- 3D Cast Iron Press Rig -->
+        <div class="intro-iron-rig" id="intro-iron-rig">
+          <!-- Top Iron Lid -->
+          <div class="intro-iron-lid" id="intro-iron-lid">
+            <div class="iron-handle"></div>
+            <div class="iron-plate-teeth top">
+              <span class="cell"></span><span class="cell"></span><span class="cell"></span>
+              <span class="cell"></span><span class="cell"></span><span class="cell"></span>
+              <span class="cell"></span><span class="cell"></span><span class="cell"></span>
+            </div>
+            <div class="iron-coil-glow top-coil" id="intro-top-coil"></div>
+          </div>
+
+          <!-- Center Stage: The Baked Waffle -->
+          <div class="intro-waffle-bake" id="intro-waffle-bake">
+            <img src="assets/images/waffle-stage-clean.jpg" alt="Golden Waffle Being Baked" class="intro-waffle-img" draggable="false" />
+            <div class="intro-caramel-glow" id="intro-caramel-glow"></div>
+          </div>
+
+          <!-- Dense Volumetric Steam Wisps -->
+          <div class="intro-steam-group" id="intro-steam-group">
+            <div class="intro-steam-plume is-1"></div>
+            <div class="intro-steam-plume is-2"></div>
+            <div class="intro-steam-plume is-3"></div>
+          </div>
+
+          <!-- Bottom Iron Base -->
+          <div class="intro-iron-base">
+            <div class="iron-plate-teeth bottom">
+              <span class="cell"></span><span class="cell"></span><span class="cell"></span>
+              <span class="cell"></span><span class="cell"></span><span class="cell"></span>
+              <span class="cell"></span><span class="cell"></span><span class="cell"></span>
+            </div>
+            <div class="iron-coil-glow bottom-coil" id="intro-bottom-coil"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Commercial Step Status & Brand Reveal -->
+      <div class="preloader-brand">
+        <div class="intro-step-indicator" id="intro-step-indicator">
+          <span class="step-pill" id="intro-step-pill">STEP 1 OF 8</span>
+          <span class="step-status-text" id="intro-status-text">Pouring 48-Hour Brioche Batter...</span>
+        </div>
+        <h2 class="brand-title" id="intro-brand-title">WAFFLE HOUSE</h2>
+        <p class="brand-tagline" id="intro-brand-tagline">Artisanal Belgian Liege Boutique • India</p>
+      </div>
+
+      <!-- Live Loading Bar -->
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="preloader-bar"></div>
+      </div>
+      <div class="progress-footer">
+        <span class="temp-indicator"><i class="fa-solid fa-fire"></i> Cast Iron: <strong id="intro-iron-temp">24°C</strong></span>
+        <span class="progress-number" id="preloader-num">0%</span>
+      </div>
+
+      <!-- Enter Website CTA Button (Revealed at Step 8) -->
+      <button class="btn btn-primary intro-enter-btn" id="intro-enter-btn">
+        <span>ENTER WAFFLE HOUSE</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Background Particle Canvas -->
+  <canvas id="ambient-particles" class="ambient-canvas"></canvas>
+
+  <!-- Ambient Sound Toggle & Notification Sound Switch -->
+  <div class="fixed-sound-toggle">
+    <button id="sound-btn" class="sound-btn" aria-label="Toggle Sound Effects" title="Toggle Sound Feedback">
+      <i class="fa-solid fa-volume-high" id="sound-icon"></i>
+      <span class="sound-tooltip">Audio Feedback: ON</span>
+    </button>
+  </div>
+
+  <!-- ==============================================
+       NAVIGATION BAR
+       ============================================== -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#home" class="brand-logo" id="brand-logo">
+        <div class="logo-waffle-icon">
+          <i class="fa-solid fa-stroopwafel"></i>
+        </div>
+        <div class="logo-text">
+          <span class="brand-main">WAFFLE HOUSE</span>
+          <span class="brand-sub">ARTISANAL BELGIAN BOUTIQUE</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="nav-menu" id="nav-menu">
+        <ul class="nav-list">
+          <li><a href="#home" class="nav-link active" data-nav="home">Home</a></li>
+          <li><a href="#menu" class="nav-link" data-nav="menu">Menu</a></li>
+          <li>
+            <a href="#builder" class="nav-link highlight-link" data-nav="builder">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Waffle Builder
+              <span class="pulse-chip">NEW</span>
+            </a>
+          </li>
+          <li><a href="#about" class="nav-link" data-nav="about">Our Story</a></li>
+          <li><a href="#contact" class="nav-link" data-nav="contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Nav Actions (Cart Button + Order Button + Mobile Toggle) -->
+      <div class="nav-actions">
+        <button id="cart-toggle-btn" class="cart-btn" aria-label="Open Shopping Cart">
+          <i class="fa-solid fa-basket-shopping"></i>
+          <span class="cart-label">Cart</span>
+          <span class="cart-badge" id="nav-cart-badge">0</span>
+        </button>
+
+        <a href="#menu" class="btn btn-primary nav-order-btn">
+          <span>Order Now</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Mobile Navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-nav-overlay" id="mobile-nav-overlay">
+    <div class="mobile-nav-panel">
+      <div class="mobile-nav-header">
+        <div class="brand-logo">
+          <i class="fa-solid fa-stroopwafel logo-icon"></i>
+          <span>WAFFLE HOUSE</span>
+        </div>
+        <button class="close-mobile-btn" id="close-mobile-btn" aria-label="Close Navigation">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <ul class="mobile-nav-links">
+        <li><a href="#home" class="mobile-link" data-nav="home"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li><a href="#menu" class="mobile-link" data-nav="menu"><i class="fa-solid fa-utensils"></i> Full Menu</a></li>
+        <li><a href="#builder" class="mobile-link special" data-nav="builder"><i class="fa-solid fa-wand-magic-sparkles"></i> Waffle Builder</a></li>
+        <li><a href="#about" class="mobile-link" data-nav="about"><i class="fa-solid fa-heart"></i> Our Story & Craft</a></li>
+        <li><a href="#contact" class="mobile-link" data-nav="contact"><i class="fa-solid fa-location-dot"></i> Visit & Contact</a></li>
+      </ul>
+      <div class="mobile-nav-footer">
+        <button class="btn btn-primary w-full" id="mobile-open-cart-btn">
+          <i class="fa-solid fa-basket-shopping"></i> View Cart (<span id="mobile-cart-badge">0</span> items)
+        </button>
+        <p class="mobile-hours"><i class="fa-regular fa-clock"></i> Open Daily: 8:00 AM – 11:00 PM</p>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- ==============================================
+         SECTION 1: HOME (HERO)
+         ============================================== -->
+    <!-- ==============================================
+         SECTION 1: HOME (SCROLL-CONTROLLED CINEMATIC HERO)
+         ============================================== -->
+    <section id="home" class="hero-scroll-track">
+      <div class="hero-sticky-frame" id="hero-sticky-frame">
+        <div class="hero-glow-layer"></div>
+
+        <!-- SCROLL-CONTROLLED CINEMATIC WAFFLE STAGE -->
+        <div class="hero-cinematic-stage" id="hero-cinematic-stage">
+          
+          <!-- Ambient 3D Depth Particles & Floating Sugar Crystals -->
+          <div class="stage-floating-particles" id="stage-floating-particles">
+            <span class="sugar-crystal sc-1">✦</span>
+            <span class="sugar-crystal sc-2">✧</span>
+            <span class="sugar-crystal sc-3">✦</span>
+            <span class="sugar-crystal sc-4">✧</span>
+            <span class="sugar-crystal sc-5">✦</span>
+          </div>
+
+          <!-- 3D Perspective Waffle Assembly Chamber -->
+          <div class="waffle-assembly-chamber" id="waffle-assembly-chamber">
+            
+            <!-- Assembly Snap Flash Effect (triggers on connection in Stage 2) -->
+            <div class="assembly-snap-flash" id="assembly-snap-flash"></div>
+            
+            <!-- STAGE 1 & 2: 4 Deconstructed Floating Waffle Quarters -->
+            <div class="waffle-piece-quarter piece-tl" id="piece-tl">
+              <div class="piece-inner"><img src="assets/images/waffle-stage-clean.jpg" alt="Belgian Waffle Quarter Top Left" draggable="false" /></div>
+              <div class="piece-shadow"></div>
+              <div class="piece-crumb c1"></div>
+            </div>
+            <div class="waffle-piece-quarter piece-tr" id="piece-tr">
+              <div class="piece-inner"><img src="assets/images/waffle-stage-clean.jpg" alt="Belgian Waffle Quarter Top Right" draggable="false" /></div>
+              <div class="piece-shadow"></div>
+              <div class="piece-crumb c2"></div>
+            </div>
+            <div class="waffle-piece-quarter piece-bl" id="piece-bl">
+              <div class="piece-inner"><img src="assets/images/waffle-stage-clean.jpg" alt="Belgian Waffle Quarter Bottom Left" draggable="false" /></div>
+              <div class="piece-shadow"></div>
+              <div class="piece-crumb c3"></div>
+            </div>
+            <div class="waffle-piece-quarter piece-br" id="piece-br">
+              <div class="piece-inner"><img src="assets/images/waffle-stage-clean.jpg" alt="Belgian Waffle Quarter Bottom Right" draggable="false" /></div>
+              <div class="piece-shadow"></div>
+              <div class="piece-crumb c4"></div>
+            </div>
+
+            <!-- STAGE 3: Unified Assembled Base Waffle -->
+            <div class="waffle-assembled-base" id="waffle-assembled-base">
+              <img src="assets/images/waffle-stage-clean.jpg" alt="Crispy Assembled Belgian Liege Waffle" class="base-waffle-img" draggable="false" />
+              <div class="waffle-pocket-shimmer" id="waffle-pocket-shimmer"></div>
+            </div>
+
+            <!-- STAGE 4: Chocolate Coating Layer with Spreading Flow Mask -->
+            <div class="waffle-chocolate-layer" id="waffle-chocolate-layer">
+              <img src="assets/images/waffle-stage-chocolate.jpg" alt="Molten Belgian Chocolate Enrobed Waffle" class="choc-waffle-img" draggable="false" />
+              <div class="choc-gloss-shine"></div>
+            </div>
+
+            <!-- STAGE 4: Molten Chocolate Liquid Pour Stream & Canvas Ripples -->
+            <div class="chocolate-pour-rig" id="chocolate-pour-rig">
+              <div class="pour-stream-column" id="pour-stream-column">
+                <div class="pour-stream-core"></div>
+                <div class="pour-stream-glint"></div>
+                <div class="pour-stream-nozzle"></div>
+              </div>
+              <canvas id="chocolate-liquid-canvas" class="chocolate-liquid-canvas"></canvas>
+            </div>
+
+            <!-- STAGE 5: Final Masterpiece Layer (Toppings & Berries) -->
+            <div class="waffle-masterpiece-layer" id="waffle-masterpiece-layer">
+              <img src="assets/images/waffle-stage-masterpiece.jpg" alt="Masterpiece Belgian Waffle with Fresh Strawberries and Chocolate" class="masterpiece-waffle-img" draggable="false" />
+            </div>
+
+            <!-- STAGE 5: Volumetric Rising Steam Canvas -->
+            <canvas id="stage-steam-canvas" class="stage-steam-canvas"></canvas>
+            
+            <!-- STAGE 5: Dynamic 3D Falling Topping Elements -->
+            <div class="topping-elements-rig" id="topping-elements-rig">
+              <div class="floating-strawberry fs-1" id="fs-1">
+                <span class="topping-emoji">🍓</span>
+                <span class="topping-shadow"></span>
+              </div>
+              <div class="floating-strawberry fs-2" id="fs-2">
+                <span class="topping-emoji">🍓</span>
+                <span class="topping-shadow"></span>
+              </div>
+              <div class="floating-chocolate-curl fcc-1" id="fcc-1">
+                <span class="topping-emoji">🍫</span>
+                <span class="topping-shadow"></span>
+              </div>
+              <div class="floating-raspberry fr-1" id="fr-1">
+                <span class="topping-emoji">🫐</span>
+                <span class="topping-shadow"></span>
+              </div>
+              <div class="sugar-snow-fall" id="sugar-snow-fall"></div>
+            </div>
+
+          </div>
+
+          <!-- Cinematic Lighting & Vignette Overlays -->
+          <div class="video-vignette-layer"></div>
+          <div class="video-amber-lighting"></div>
+        </div>
+
+        <!-- 5 Cinematic Stage Text Overlays -->
+        <div class="cinematic-stages-container" id="cinematic-stages">
+          
+          <!-- STAGE 1: 0% to 20% -->
+          <div class="cinematic-stage-card active" data-stage="1">
+            <div class="stage-eyebrow">
+              <span class="stage-num-badge">STAGE 01</span>
+              <span class="stage-tag-text">Deconstructed Dough</span>
+            </div>
+            <h1 class="hero-title">
+              <span class="title-line">Crispy Outside.</span>
+              <span class="title-line gold-gradient">Soft Inside.</span>
+            </h1>
+            <p class="hero-description">
+              Artisanal brioche quarters suspended in air, infused with authentic Wallonia pearl sugar. Scroll down to assemble the waffle.
+            </p>
+            <div class="stage-scroll-hint">
+              <span class="mouse-icon"><span class="mouse-wheel"></span></span>
+              <span>Scroll down to assemble ↓</span>
+            </div>
+          </div>
+
+          <!-- STAGE 2: 20% to 40% -->
+          <div class="cinematic-stage-card" data-stage="2">
+            <div class="stage-eyebrow">
+              <span class="stage-num-badge">STAGE 02</span>
+              <span class="stage-tag-text">The Convergence</span>
+            </div>
+            <h2 class="hero-stage-title">
+              Golden Brioche<br /><span class="gold-gradient">Meets 180°C Heat</span>
+            </h2>
+            <p class="hero-description">
+              Watch as each delicate quarter rotates into alignment, drawing together with architectural culinary precision.
+            </p>
+          </div>
+
+          <!-- STAGE 3: 40% to 60% -->
+          <div class="cinematic-stage-card" data-stage="3">
+            <div class="stage-eyebrow">
+              <span class="stage-num-badge">STAGE 03</span>
+              <span class="stage-tag-text">Cast-Iron Harmony</span>
+            </div>
+            <h2 class="hero-stage-title">
+              Assembled to<br /><span class="gold-gradient">Crispy Perfection</span>
+            </h2>
+            <p class="hero-description">
+              The signature deep waffle pockets lock into form, ready to capture rivers of warm chocolate ganache.
+            </p>
+          </div>
+
+          <!-- STAGE 4: 60% to 80% -->
+          <div class="cinematic-stage-card" data-stage="4">
+            <div class="stage-eyebrow">
+              <span class="stage-num-badge">STAGE 04</span>
+              <span class="stage-tag-text">The Chocolate Cascade</span>
+            </div>
+            <h2 class="hero-stage-title">
+              Molten 72%<br /><span class="gold-gradient">Belgian Ganache</span>
+            </h2>
+            <p class="hero-description">
+              Silky, warm single-origin chocolate pours from above, cascading luxuriously into every caramelized pocket.
+            </p>
+          </div>
+
+          <!-- STAGE 5: 80% to 100% -->
+          <div class="cinematic-stage-card" data-stage="5">
+            <div class="stage-eyebrow">
+              <span class="stage-num-badge highlight">STAGE 05</span>
+              <span class="stage-tag-text">The Masterpiece</span>
+            </div>
+            <h2 class="hero-stage-title">
+              Fresh Berries, Steam &<br /><span class="gold-gradient">Pure Ecstasy</span>
+            </h2>
+            <p class="hero-description">
+              Topped with vibrant wild strawberries, powdered sugar snowfall, and rising vapor. Your waffle is ready to savor.
+            </p>
+            <div class="hero-cta-group">
+              <a href="#builder" class="btn btn-primary btn-lg pulse-glow" id="hero-order-btn">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>ORDER NOW</span>
+              </a>
+              <a href="#menu" class="btn btn-secondary btn-lg" id="hero-menu-btn">
+                <i class="fa-solid fa-book-open"></i>
+                <span>EXPLORE MENU</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Apple-Style Interactive HUD Scrub Controller -->
+        <div class="scroll-hud-panel" id="scroll-hud">
+          <div class="hud-stage-tracker">
+            <span class="hud-label">CINEMATIC SCENE</span>
+            <strong class="hud-current-title" id="hud-stage-title">Stage 1: Floating Pieces</strong>
+          </div>
+
+          <!-- Interactive Stage Dots Navigation -->
+          <div class="hud-stage-dots">
+            <button class="stage-dot active" data-stage-target="1" title="Stage 1: Floating Pieces">
+              <span class="dot-num">01</span>
+              <span class="dot-name">Pieces</span>
+            </button>
+            <button class="stage-dot" data-stage-target="2" title="Stage 2: Convergence">
+              <span class="dot-num">02</span>
+              <span class="dot-name">Connect</span>
+            </button>
+            <button class="stage-dot" data-stage-target="3" title="Stage 3: Assembled">
+              <span class="dot-num">03</span>
+              <span class="dot-name">Assemble</span>
+            </button>
+            <button class="stage-dot" data-stage-target="4" title="Stage 4: Chocolate Cascade">
+              <span class="dot-num">04</span>
+              <span class="dot-name">Chocolate</span>
+            </button>
+            <button class="stage-dot" data-stage-target="5" title="Stage 5: Masterpiece">
+              <span class="dot-num">05</span>
+              <span class="dot-name">Complete</span>
+            </button>
+          </div>
+
+          <!-- Progress Bar & Percentage -->
+          <div class="hud-progress-wrap">
+            <div class="hud-progress-track">
+              <div class="hud-progress-fill" id="hud-progress-fill"></div>
+            </div>
+            <span class="hud-percentage" id="hud-progress-pct">0%</span>
+          </div>
+        </div>
+
+        <!-- Scroll down prompter at bottom -->
+        <div class="sticky-bottom-prompt" id="sticky-scroll-prompt">
+          <span class="prompt-text">Scroll to control animation</span>
+          <i class="fa-solid fa-chevron-down prompt-arrow"></i>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==============================================
+         SCROLL STORY: WAFFLE PRESS & GRID MORPH TRANSITION
+         Controlled by user scroll progress
+         Sequence: Top Plate descends & Bottom Plate ascends →
+                   Plates close & gap narrows → 180°C golden heat glow surges →
+                   PRESS & WARM LIGHT FLASH → Plates open & WAFFLE REVEALS →
+                   Waffle grid expands and morphs into Menu section architecture
+         ============================================== -->
+    <section id="press-story" class="press-story-track">
+      <div class="press-sticky-container" id="press-sticky-container">
+        
+        <!-- Background Depth Parallax Typography -->
+        <div class="press-bg-typography" id="press-bg-typography" data-parallax="slow">
+          <span class="bg-word">HANDCRAFTED</span>
+          <span class="bg-word outline">180°C CAST IRON</span>
+        </div>
+
+        <!-- Expanding Waffle Grid Morph Layer (Creates the Menu background) -->
+        <div class="press-grid-morph" id="press-grid-morph" data-parallax="medium">
+          <div class="morph-cell mc-1"></div><div class="morph-cell mc-2"></div>
+          <div class="morph-cell mc-3"></div><div class="morph-cell mc-4"></div>
+          <div class="morph-cell mc-5"></div><div class="morph-cell mc-6"></div>
+          <div class="morph-cell mc-7"></div><div class="morph-cell mc-8"></div>
+        </div>
+
+        <!-- Heavy Cast-Iron Waffle Press Rig -->
+        <div class="waffle-press-rig" id="waffle-press-rig" data-parallax="fast">
+          
+          <!-- Top Heavy Cast-Iron Press Plate -->
+          <div class="press-plate plate-top" id="plate-top">
+            <div class="plate-handle-arm">
+              <span class="handle-grip"></span>
+            </div>
+            <div class="plate-iron-body">
+              <div class="plate-ribs-texture">
+                <span class="p-rib"></span><span class="p-rib"></span><span class="p-rib"></span>
+                <span class="p-rib"></span><span class="p-rib"></span><span class="p-rib"></span>
+              </div>
+            </div>
+            <div class="plate-teeth-face top-teeth">
+              <span class="t-cell"></span><span class="t-cell"></span><span class="t-cell"></span>
+              <span class="t-cell"></span><span class="t-cell"></span><span class="t-cell"></span>
+              <span class="t-cell"></span><span class="t-cell"></span><span class="t-cell"></span>
+            </div>
+            <div class="plate-element-glow top-element-glow" id="plate-top-glow"></div>
+          </div>
+
+          <!-- Central Cooking Chamber: Dough → Press Flash → Reveal Waffle -->
+          <div class="press-chamber" id="press-chamber">
+            <div class="press-flash-bloom" id="press-flash-bloom"></div>
+            <div class="press-waffle-reveal" id="press-waffle-reveal">
+              <img src="assets/images/waffle-stage-clean.jpg" alt="Freshly Pressed Golden Belgian Waffle" class="press-waffle-photo" draggable="false" />
+              <div class="press-sugar-crackle"></div>
+            </div>
+            <div class="press-steam-wisps" id="press-steam-wisps">
+              <span class="ps-wisp ps1"></span>
+              <span class="ps-wisp ps2"></span>
+              <span class="ps-wisp ps3"></span>
+            </div>
+          </div>
+
+          <!-- Bottom Cast-Iron Base Plate -->
+          <div class="press-plate plate-bottom" id="plate-bottom">
+            <div class="plate-teeth-face bottom-teeth">
+              <span class="t-cell"></span><span class="t-cell"></span><span class="t-cell"></span>
+              <span class="t-cell"></span><span class="t-cell"></span><span class="t-cell"></span>
+              <span class="t-cell"></span><span class="t-cell"></span><span class="t-cell"></span>
+            </div>
+            <div class="plate-element-glow bottom-element-glow" id="plate-bottom-glow"></div>
+            <div class="plate-iron-body bottom-body">
+              <div class="plate-ribs-texture">
+                <span class="p-rib"></span><span class="p-rib"></span><span class="p-rib"></span>
+              </div>
+            </div>
+            <div class="plate-stand-feet"></div>
+          </div>
+
+        </div>
+
+        <!-- Scroll Story Interactive Caption Card -->
+        <div class="press-story-caption" id="press-story-caption">
+          <div class="caption-eyebrow">
+            <span class="caption-step-badge" id="press-step-badge">STEP 1 • ALIGNMENT</span>
+            <span class="caption-temp"><i class="fa-solid fa-fire"></i> 180°C CAST IRON</span>
+          </div>
+          <h3 class="caption-title" id="press-title">Cast-Iron Waffle Press</h3>
+          <p class="caption-desc" id="press-desc">Scroll down to lower the heavy iron plate, apply golden heat, and press the authentic Liege dough.</p>
+          <div class="press-scroll-tracker">
+            <div class="press-track-bar">
+              <div class="press-track-fill" id="press-track-fill"></div>
+            </div>
+            <span class="press-pct-label" id="press-pct-label">0%</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Speed-Sensitive Marquee Ticker -->
+    <div class="scroll-speed-marquee" id="scroll-speed-marquee">
+      <div class="marquee-track" id="marquee-track">
+        <span class="marquee-item"><i class="fa-solid fa-star gold"></i> 100% EGGLESS AVAILABLE</span>
+        <span class="marquee-item"><i class="fa-solid fa-fire gold"></i> 180°C HEAVY CAST IRON</span>
+        <span class="marquee-item"><i class="fa-solid fa-stroopwafel gold"></i> 48-HR BRIOCHE FERMENT</span>
+        <span class="marquee-item"><i class="fa-solid fa-gem gold"></i> WALLONIA PEARL SUGAR</span>
+        <span class="marquee-item"><i class="fa-solid fa-cookie gold"></i> 72% CALLEBAUT CHOCOLATE</span>
+        <span class="marquee-item"><i class="fa-solid fa-heart gold"></i> FRESHLY BAKED TO ORDER IN INDIA</span>
+        <!-- Continuous loop duplicates -->
+        <span class="marquee-item"><i class="fa-solid fa-star gold"></i> 100% EGGLESS AVAILABLE</span>
+        <span class="marquee-item"><i class="fa-solid fa-fire gold"></i> 180°C HEAVY CAST IRON</span>
+        <span class="marquee-item"><i class="fa-solid fa-stroopwafel gold"></i> 48-HR BRIOCHE FERMENT</span>
+        <span class="marquee-item"><i class="fa-solid fa-gem gold"></i> WALLONIA PEARL SUGAR</span>
+        <span class="marquee-item"><i class="fa-solid fa-cookie gold"></i> 72% CALLEBAUT CHOCOLATE</span>
+        <span class="marquee-item"><i class="fa-solid fa-heart gold"></i> FRESHLY BAKED TO ORDER IN INDIA</span>
+      </div>
+    </div>
+
+    <!-- ==============================================
+         SECTION 2: MENU
+         ============================================== -->
+    <section id="menu" class="section menu-section">
+      <div class="container">
+        <div class="section-header text-center" data-animate="fade-up">
+          <div class="section-tag">Indian Boutique Selection</div>
+          <h2 class="section-title">Handcrafted Waffle Creations</h2>
+          <p class="section-subtitle">
+            Every creation is prepared freshly upon order using authentic Belgian cast-iron griddles and premium confectionery ingredients. All prices in ₹ INR.
+          </p>
+        </div>
+
+        <!-- Filter Categories -->
+        <div class="menu-filter-bar" data-animate="fade-up">
+          <button class="filter-btn active" data-filter="all">
+            <i class="fa-solid fa-border-all"></i> All Flavors
+          </button>
+          <button class="filter-btn" data-filter="classic">
+            <i class="fa-solid fa-stroopwafel"></i> Classic Waffles
+          </button>
+          <button class="filter-btn" data-filter="chocolate">
+            <i class="fa-solid fa-cookie"></i> Chocolate Decadence
+          </button>
+          <button class="filter-btn" data-filter="special">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Chef Specials & Biscoff
+          </button>
+          <button class="filter-btn" data-filter="fruit">
+            <i class="fa-solid fa-apple-whole"></i> Fruit & Berry
+          </button>
+          <button class="filter-btn" data-filter="icecream">
+            <i class="fa-solid fa-ice-cream"></i> Ice Cream Towers
+          </button>
+          <button class="filter-btn" data-filter="drinks">
+            <i class="fa-solid fa-mug-hot"></i> Drinks & Cocoa
+          </button>
+        </div>
+
+        <!-- Product Grid with Staggered Reveals -->
+        <div class="menu-grid" id="menu-grid">
+          <!-- Dynamically populated via JS with staggered IntersectionObserver timing -->
+        </div>
+
+        <!-- Product Detail FLIP Transformation Modal / Overlay -->
+        <div class="product-flip-backdrop" id="product-flip-backdrop"></div>
+        <div class="product-flip-card" id="product-flip-card" role="dialog" aria-modal="true" aria-hidden="true">
+          <button class="flip-close-btn" id="flip-close-btn" aria-label="Close Product Detail">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <div class="flip-content-body" id="flip-content-body">
+            <!-- Dynamically populated on card click -->
+          </div>
+        </div>
+
+        <!-- Customizer Promotion Banner -->
+        <div class="builder-cta-banner" data-animate="fade-up">
+          <div class="banner-content">
+            <span class="banner-badge">YOUR WAFFLE, YOUR RULES</span>
+            <h3>Craving Something Truly Unique?</h3>
+            <p>Design your own masterpiece in our 3D Interactive Waffle Builder. Select your artisanal base, sauces, fresh toppings, and ice cream scoop!</p>
+          </div>
+          <a href="#builder" class="btn btn-primary btn-lg">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Open Waffle Builder
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         SECTION 3: WAFFLE BUILDER (INTERACTIVE CUSTOMIZER)
+         ============================================== -->
+    <section id="builder" class="section builder-section">
+      <div class="builder-bg-accent"></div>
+      <div class="container">
+        <div class="section-header text-center" data-animate="fade-up">
+          <div class="section-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> Interactive Lab</div>
+          <h2 class="section-title">The Master Waffle Builder</h2>
+          <p class="section-subtitle">
+            Stack and style your dream waffle with real-time visual preview and live price calculation.
+          </p>
+        </div>
+
+        <div class="builder-layout">
+          <!-- Left: Live Interactive Waffle Preview Stage -->
+          <div class="builder-preview-col" data-animate="fade-right">
+            <div class="preview-stage-card">
+              <div class="stage-header">
+                <span class="stage-tag"><i class="fa-solid fa-eye"></i> Live Preview</span>
+                <button class="preview-reset-btn" id="builder-reset-btn" title="Reset all selections">
+                  <i class="fa-solid fa-rotate-left"></i> Reset
+                </button>
+                <button class="preview-surprise-btn" id="builder-surprise-btn" title="Randomize a delicious combination!">
+                  <i class="fa-solid fa-dice"></i> Surprise Me
+                </button>
+              </div>
+
+              <!-- Interactive Visual Canvas Wrapper -->
+              <div class="waffle-stage" id="waffle-stage">
+                <!-- Waffle Base Plate -->
+                <div class="stage-plate">
+                  <div class="plate-rim"></div>
+                </div>
+
+                <!-- Waffle Base Element (Dynamic Texture & Class) -->
+                <div class="interactive-waffle" id="interactive-waffle">
+                  <!-- Waffle Iron Texture Grid -->
+                  <div class="waffle-grid-pattern">
+                    <div class="grid-square"></div><div class="grid-square"></div>
+                    <div class="grid-square"></div><div class="grid-square"></div>
+                    <div class="grid-square"></div><div class="grid-square"></div>
+                    <div class="grid-square"></div><div class="grid-square"></div>
+                    <div class="grid-square"></div>
+                  </div>
+                  <div class="waffle-crisp-shine"></div>
+                </div>
+
+                <!-- Dynamic Layer: Sauces -->
+                <div class="interactive-sauce-layer" id="interactive-sauce-layer"></div>
+
+                <!-- Dynamic Layer: Ice Cream Scoop -->
+                <div class="interactive-icecream-layer" id="interactive-icecream-layer"></div>
+
+                <!-- Dynamic Layer: Toppings (Strawberries, Almonds, Oreos, Marshmallows, etc.) -->
+                <div class="interactive-toppings-layer" id="interactive-toppings-layer"></div>
+              </div>
+
+              <!-- Summary Receipt Bar below preview -->
+              <div class="preview-summary-footer">
+                <div class="custom-title-editor">
+                  <label for="custom-waffle-name" class="visually-hidden">Waffle Name</label>
+                  <input type="text" id="custom-waffle-name" value="My Dream Waffle" maxlength="32" title="Click to rename your creation" />
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </div>
+                <div class="custom-live-price">
+                  <span class="price-label">Live Price:</span>
+                  <span class="price-val" id="builder-live-price">₹180</span>
+                </div>
+              </div>
+
+              <!-- Add to Cart CTA -->
+              <button class="btn btn-primary btn-lg w-full add-custom-btn" id="add-custom-waffle-btn">
+                <i class="fa-solid fa-cart-plus"></i> Add Custom Waffle to Cart
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Interactive Ingredient Selector Accordion / Tabs -->
+          <div class="builder-controls-col" data-animate="fade-left">
+            <div class="builder-steps-container">
+
+              <!-- Step 1: Waffle Base -->
+              <div class="builder-step active" data-step="1">
+                <div class="step-head">
+                  <span class="step-badge">1</span>
+                  <div class="step-info">
+                    <h4>Choose Your Waffle Base</h4>
+                    <span class="step-hint">Select 1 artisanal dough base</span>
+                  </div>
+                </div>
+                <div class="options-grid base-options" id="base-options-grid">
+                  <!-- Injected via builder JS -->
+                </div>
+              </div>
+
+              <!-- Step 2: Artisanal Sauces -->
+              <div class="builder-step" data-step="2">
+                <div class="step-head">
+                  <span class="step-badge">2</span>
+                  <div class="step-info">
+                    <h4>Select Warm Gourmet Sauces</h4>
+                    <span class="step-hint">Choose up to 2 sauces (₹40 each)</span>
+                  </div>
+                </div>
+                <div class="options-grid sauce-options" id="sauce-options-grid">
+                  <!-- Injected via builder JS -->
+                </div>
+              </div>
+
+              <!-- Step 3: Fresh Toppings -->
+              <div class="builder-step" data-step="3">
+                <div class="step-head">
+                  <span class="step-badge">3</span>
+                  <div class="step-info">
+                    <h4>Pick Premium Toppings</h4>
+                    <span class="step-hint">Mix and match your favorites (₹40 each)</span>
+                  </div>
+                </div>
+                <div class="options-grid topping-options" id="topping-options-grid">
+                  <!-- Injected via builder JS -->
+                </div>
+              </div>
+
+              <!-- Step 4: Ice Cream Scoop -->
+              <div class="builder-step" data-step="4">
+                <div class="step-head">
+                  <span class="step-badge">4</span>
+                  <div class="step-info">
+                    <h4>Artisanal Ice Cream Scoop</h4>
+                    <span class="step-hint">Slow-churned French gelato (₹60)</span>
+                  </div>
+                </div>
+                <div class="options-grid icecream-options" id="icecream-options-grid">
+                  <!-- Injected via builder JS -->
+                </div>
+              </div>
+
+              <!-- Kitchen Special Notes -->
+              <div class="builder-step notes-step" data-step="5">
+                <div class="step-head">
+                  <span class="step-badge"><i class="fa-regular fa-comment-dots"></i></span>
+                  <div class="step-info">
+                    <h4>Special Instructions for the Chef</h4>
+                    <span class="step-hint">Eggless preference, extra crispy, sauce on the side, etc.</span>
+                  </div>
+                </div>
+                <div class="instructions-box">
+                  <textarea id="custom-kitchen-notes" placeholder="e.g. Please make the crust extra crispy and package the chocolate sauce on the side." rows="2"></textarea>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         SECTION 4: CART & CHECKOUT (DRAWER & MODAL)
+         ============================================== -->
+    <!-- Slide-in Cart Drawer Overlay -->
+    <div class="cart-drawer-overlay" id="cart-drawer-overlay">
+      <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-drawer-header">
+          <div class="drawer-title-wrap">
+            <i class="fa-solid fa-basket-shopping"></i>
+            <h3>Your Order</h3>
+            <span class="drawer-item-count" id="drawer-total-items">0 items</span>
+          </div>
+          <button class="cart-close-btn" id="cart-close-btn" aria-label="Close Shopping Cart">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Fulfillment Mode Toggle (Dine-In, Takeaway, Delivery) -->
+        <div class="fulfillment-selector">
+          <button class="fulfillment-tab active" data-mode="dine-in">
+            <i class="fa-solid fa-chair"></i> Dine-In
+          </button>
+          <button class="fulfillment-tab" data-mode="pickup">
+            <i class="fa-solid fa-bag-shopping"></i> Pickup
+          </button>
+          <button class="fulfillment-tab" data-mode="delivery">
+            <i class="fa-solid fa-motorcycle"></i> Delivery
+          </button>
+        </div>
+
+        <!-- Cart Items List Container -->
+        <div class="cart-items-container" id="cart-items-container">
+          <!-- Dynamic Items Injected Here -->
+          <div class="empty-cart-state" id="empty-cart-state">
+            <div class="empty-icon"><i class="fa-solid fa-stroopwafel"></i></div>
+            <h4>Your cart is hungry!</h4>
+            <p>You haven't added any delicious waffles yet. Explore our Indian boutique menu or create your own custom masterpiece.</p>
+            <a href="#menu" class="btn btn-primary btn-sm close-cart-link">Browse Menu</a>
+          </div>
+        </div>
+
+        <!-- Promo Code Input -->
+        <div class="promo-code-box" id="promo-code-box">
+          <div class="promo-input-group">
+            <i class="fa-solid fa-ticket"></i>
+            <input type="text" id="promo-input" placeholder="Promo code (try 'CRISPY20')" uppercase />
+            <button id="apply-promo-btn" class="btn-promo">Apply</button>
+          </div>
+          <div class="promo-message" id="promo-message"></div>
+        </div>
+
+        <!-- Cart Financial Breakdown Footer -->
+        <div class="cart-drawer-footer" id="cart-drawer-footer">
+          <div class="cart-calc-row">
+            <span>Subtotal</span>
+            <span class="calc-val" id="cart-subtotal">₹0</span>
+          </div>
+          <div class="cart-calc-row discount-row" id="cart-discount-row" style="display: none;">
+            <span>Discount (<span id="discount-code-name"></span>)</span>
+            <span class="calc-val discount-val" id="cart-discount">-₹0</span>
+          </div>
+          <div class="cart-calc-row">
+            <span>Service & Packaging</span>
+            <span class="calc-val" id="cart-service">₹25</span>
+          </div>
+          <div class="cart-calc-row">
+            <span>Restaurant GST (5%)</span>
+            <span class="calc-val" id="cart-tax">₹0</span>
+          </div>
+          <div class="cart-total-row">
+            <span>Total Amount</span>
+            <span class="total-val" id="cart-total">₹0</span>
+          </div>
+
+          <button class="btn btn-primary btn-lg w-full checkout-action-btn" id="proceed-checkout-btn">
+            <span>Proceed to Checkout</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Complete Checkout Modal -->
+    <div class="checkout-modal-overlay" id="checkout-modal-overlay">
+      <div class="checkout-modal">
+        <button class="modal-close-btn" id="close-checkout-modal" aria-label="Close Checkout">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="checkout-header">
+          <div class="checkout-icon-wrap">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div>
+            <h3>Secure Dessert Checkout</h3>
+            <p>Enter your details to send your order directly to our 180°C waffle irons!</p>
+          </div>
+        </div>
+
+        <form id="checkout-form" class="checkout-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="order-name">Full Name *</label>
+              <input type="text" id="order-name" required placeholder="Aarav Sharma" />
+            </div>
+            <div class="form-group">
+              <label for="order-phone">Phone Number (India) *</label>
+              <input type="tel" id="order-phone" required placeholder="+91 98200 12345" />
+            </div>
+          </div>
+
+          <div class="form-group" id="address-group">
+            <label for="order-address" id="address-label">Delivery Address / Table Number *</label>
+            <input type="text" id="order-address" required placeholder="Flat 402, Sea Green Apts, Bandra West, Mumbai or Table #5" />
+          </div>
+
+          <div class="form-group">
+            <label>Payment Method</label>
+            <div class="payment-methods-grid">
+              <label class="payment-card active">
+                <input type="radio" name="payment" value="upi" checked />
+                <i class="fa-solid fa-mobile-screen-button"></i>
+                <span>UPI (GPay/PhonePe)</span>
+              </label>
+              <label class="payment-card">
+                <input type="radio" name="payment" value="card" />
+                <i class="fa-solid fa-credit-card"></i>
+                <span>Credit / Debit Card</span>
+              </label>
+              <label class="payment-card">
+                <input type="radio" name="payment" value="cash" />
+                <i class="fa-solid fa-hand-holding-dollar"></i>
+                <span>Cash on Delivery</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Order Summary Inside Modal -->
+          <div class="modal-order-summary">
+            <div class="summary-line">
+              <span>Items to prepare:</span>
+              <strong id="modal-item-count">0</strong>
+            </div>
+            <div class="summary-line total">
+              <span>Final Charge:</span>
+              <strong id="modal-final-total">₹0</strong>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg w-full" id="confirm-order-btn">
+            <i class="fa-solid fa-check"></i> Place Order & Heat Iron
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Order Success Cinematic Celebration Modal -->
+    <div class="success-modal-overlay" id="success-modal-overlay">
+      <div class="success-modal cinematic-order-card">
+        
+        <!-- Cinematic Stage: Selected Waffle with Soft Glow & Steam -->
+        <div class="success-waffle-stage" id="success-waffle-stage">
+          <div class="success-golden-glow"></div>
+          <div class="success-waffle-plate">
+            <img src="assets/images/waffle-stage-masterpiece.jpg" alt="Your Prepared Waffle" class="success-waffle-img" id="success-waffle-img" />
+            <div class="success-steam-plume">
+              <span class="s-wisp sw1"></span>
+              <span class="s-wisp sw2"></span>
+              <span class="s-wisp sw3"></span>
+            </div>
+          </div>
+          <!-- Animated Green Check Badge -->
+          <div class="success-verified-badge" id="success-verified-badge">
+            <svg class="checkmark-svg" viewBox="0 0 52 52">
+              <circle class="checkmark-circle" cx="26" cy="26" r="24" fill="none"/>
+              <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+          </div>
+        </div>
+
+        <span class="success-tag">ORDER CONFIRMED</span>
+        <h2>Your Waffle is on the 180°C Griddle!</h2>
+        <p class="success-text">
+          Thank you, <strong id="success-customer-name">Valued Guest</strong>! Your artisanal Liege waffle is being baked fresh to order.
+        </p>
+
+        <div class="cinematic-order-metadata">
+          <div class="order-meta-box">
+            <span class="meta-label">ORDER NUMBER</span>
+            <strong class="meta-val highlight" id="success-order-id">#WH-IND-84291</strong>
+          </div>
+          <div class="order-meta-box">
+            <span class="meta-label">ESTIMATED PREP TIME</span>
+            <strong class="meta-val"><i class="fa-regular fa-clock"></i> 12–15 Mins</strong>
+          </div>
+        </div>
+
+        <div class="order-tracker-card">
+          <div class="tracker-step active">
+            <div class="dot"><i class="fa-solid fa-receipt"></i></div>
+            <span>Order Placed</span>
+          </div>
+          <div class="tracker-line active"></div>
+          <div class="tracker-step active">
+            <div class="dot"><i class="fa-solid fa-fire"></i></div>
+            <span>On 180°C Iron</span>
+          </div>
+          <div class="tracker-line"></div>
+          <div class="tracker-step">
+            <div class="dot"><i class="fa-solid fa-bell-concierge"></i></div>
+            <span>Warm Drizzle</span>
+          </div>
+        </div>
+
+        <div class="success-receipt-details">
+          <div class="detail-row">
+            <span>Payment Method:</span>
+            <strong class="status-paid"><i class="fa-solid fa-circle-check"></i> UPI / Card Verified</strong>
+          </div>
+          <div class="detail-row">
+            <span>Total Amount Paid:</span>
+            <strong id="success-total-paid">₹0</strong>
+          </div>
+        </div>
+
+        <div class="success-actions">
+          <button class="btn btn-primary w-full" id="close-success-btn">
+            <span>Order Another Waffle</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==============================================
+         SECTION 5: ABOUT
+         ============================================== -->
+    <section id="about" class="section about-section">
+      <div class="container">
+        <div class="about-grid">
+          <!-- Left: Story Narrative -->
+          <div class="about-story-col" data-animate="fade-right">
+            <div class="section-tag">Authentic Heritage</div>
+            <h2 class="section-title">The Legend of the Golden Cast Iron</h2>
+            <p class="lead-text">
+              Born from a generational passion in Brussels, <strong>WAFFLE HOUSE</strong> was founded on a simple, uncompromising conviction: a true waffle must be a sensory revelation.
+            </p>
+            <p>
+              Unlike watery batter used in ordinary pancakes, our authentic Belgian Liege waffles are crafted from a rich brioche dough infused with pure Madagascar bourbon vanilla and genuine Belgian pearl sugar.
+            </p>
+            <p>
+              When placed onto heavy 180°C cast-iron griddles, the sugar pearls caramelize on the surface, creating an exquisite glassy crunch that encases a warm, pillowy, buttery center.
+            </p>
+
+            <div class="about-signature">
+              <div class="chef-avatar">
+                <i class="fa-solid fa-certificate"></i>
+              </div>
+              <div class="chef-info">
+                <strong>Henri Van Houten</strong>
+                <span>Master Wafflier & Founder</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Visual Story Feature -->
+          <div class="about-visual-col" data-animate="fade-left">
+            <div class="story-image-card">
+              <img src="assets/images/story-chef.jpg" alt="Master artisan garnishing a waffle with chocolate" class="story-img" />
+              <div class="story-image-overlay">
+                <div class="quote-box">
+                  <i class="fa-solid fa-quote-left"></i>
+                  <p>"We don't make fast food. We caramelize moments of pure bliss."</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Animated Ingredients Showcase -->
+        <div class="ingredients-section" data-animate="fade-up">
+          <div class="section-header text-center">
+            <span class="section-tag">No Shortcuts. Ever.</span>
+            <h3 class="section-title-sm">The Four Pillars of Our Craft</h3>
+          </div>
+
+          <div class="ingredients-grid">
+            <div class="ingredient-card">
+              <div class="ingredient-icon"><i class="fa-solid fa-gem"></i></div>
+              <h4>Belgian Pearl Sugar</h4>
+              <p>Imported directly from Wallonia. Does not melt during dough mixing, but bursts into crunchy caramelized crystals on the iron.</p>
+            </div>
+
+            <div class="ingredient-card">
+              <div class="ingredient-icon"><i class="fa-solid fa-seedling"></i></div>
+              <h4>48-Hour Brioche Ferment</h4>
+              <p>Slow cold fermentation develops deep butter and brioche notes, producing an incomparably light and tender crumb.</p>
+            </div>
+
+            <div class="ingredient-card">
+              <div class="ingredient-icon"><i class="fa-solid fa-cubes-stacked"></i></div>
+              <h4>72% Callebaut Dark Cocoa</h4>
+              <p>Velvety chocolate ganache melted freshly throughout the day, providing an authentic bittersweet cocoa punch.</p>
+            </div>
+
+            <div class="ingredient-card">
+              <div class="ingredient-icon"><i class="fa-solid fa-fire"></i></div>
+              <h4>Seasoned 180°C Cast Iron</h4>
+              <p>Traditional heavy grooved iron presses ensure uniform caramelization and iconic deep waffle pockets that capture every drop of syrup.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         SECTION 6: CONTACT & VISIT
+         ============================================== -->
+    <section id="contact" class="section contact-section">
+      <div class="container">
+        <div class="section-header text-center" data-animate="fade-up">
+          <div class="section-tag">Find Your Sweet Spot</div>
+          <h2 class="section-title">Visit Our Flagship Boutique</h2>
+          <p class="section-subtitle">
+            Walk into the warm aroma of caramelized vanilla and melted cocoa. We'd love to bake something special for you.
+          </p>
+        </div>
+
+        <div class="contact-grid">
+          <!-- Left: Information & Location Details -->
+          <div class="contact-info-col" data-animate="fade-right">
+            <!-- Live Status Card -->
+            <div class="status-indicator-card">
+              <div class="status-pulse-dot"></div>
+              <div class="status-text">
+                <strong>We Are Currently Open & Baking!</strong>
+                <span>Doors open until 11:00 PM tonight</span>
+              </div>
+            </div>
+
+            <div class="info-blocks-list">
+              <div class="info-block">
+                <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+                <div>
+                  <h5>Flagship Boutique</h5>
+                  <p>Linking Road, Bandra West, Mumbai 400050<br />Flagships also in Indiranagar (Bengaluru) & Connaught Place (New Delhi)</p>
+                </div>
+              </div>
+
+              <div class="info-block">
+                <div class="info-icon"><i class="fa-regular fa-clock"></i></div>
+                <div>
+                  <h5>Opening Hours</h5>
+                  <p>Monday – Thursday: 9:00 AM – 11:30 PM<br />Friday – Sunday: 9:00 AM – 1:00 AM (Late Night Waffles)</p>
+                </div>
+              </div>
+
+              <div class="info-block">
+                <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+                <div>
+                  <h5>Orders & Concierge</h5>
+                  <p><a href="tel:+919820092335">+91 98200 WAFFLE (92335)</a><br /><a href="mailto:namaste@wafflehouse.in">namaste@wafflehouse.in</a></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stylized Interactive Map Preview -->
+            <div class="custom-map-card">
+              <div class="map-bg-graphics">
+                <div class="map-grid-lines"></div>
+                <div class="map-pin-pulse">
+                  <div class="pin-marker">
+                    <i class="fa-solid fa-stroopwafel"></i>
+                  </div>
+                  <div class="pin-halo"></div>
+                  <span class="pin-tooltip">WAFFLE HOUSE Flagship</span>
+                </div>
+              </div>
+              <div class="map-card-footer">
+                <span><i class="fa-solid fa-diamond-turn-right"></i> 2 mins from Bandra Linking Road</span>
+                <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="map-link">
+                  Open in Maps <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Social Media Buttons -->
+            <div class="social-connect-box">
+              <span>Follow the Aroma:</span>
+              <div class="social-buttons">
+                <a href="#" class="social-btn instagram" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-btn tiktok" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="#" class="social-btn facebook" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="social-btn pinterest" aria-label="Pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Interactive Contact Form -->
+          <div class="contact-form-col" data-animate="fade-left">
+            <div class="form-wrapper-card">
+              <h3>Drop Us a Message</h3>
+              <p>Questions about catering, events, or allergen menus? Reach out and our concierge will get back to you swiftly.</p>
+
+              <form id="contact-form" class="contact-form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="contact-name">Your Name *</label>
+                    <input type="text" id="contact-name" required placeholder="Elena Rostova" />
+                  </div>
+                  <div class="form-group">
+                    <label for="contact-email">Email Address *</label>
+                    <input type="email" id="contact-email" required placeholder="elena@example.com" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="contact-subject">Topic</label>
+                  <select id="contact-subject">
+                    <option value="catering">Private Event & Waffle Bar Catering</option>
+                    <option value="feedback">Experience & Flavor Feedback</option>
+                    <option value="allergy">Dietary & Allergen Inquiries</option>
+                    <option value="general">General Question</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="contact-message">Your Message *</label>
+                  <textarea id="contact-message" rows="4" required placeholder="Tell us how we can make your day sweeter..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg w-full" id="contact-submit-btn">
+                  <i class="fa-regular fa-paper-plane"></i> Send Message
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==============================================
+       FOOTER
+       ============================================== -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-col brand-col">
+        <div class="brand-logo footer-logo">
+          <i class="fa-solid fa-stroopwafel"></i>
+          <span>WAFFLE HOUSE</span>
+        </div>
+        <p class="footer-tagline">
+          Elevating the humble waffle into an artisanal dessert art form across India. 100% pure butter, imported Belgian pearl sugar, and single-origin chocolate.
+        </p>
+        <div class="footer-newsletter">
+          <label for="newsletter-email">Join the Secret Waffle Club for 15% off:</label>
+          <div class="newsletter-input-group">
+            <input type="email" id="newsletter-email" placeholder="Enter your email" />
+            <button id="newsletter-btn" class="btn-sub"><i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>Quick Flavors</h5>
+        <ul class="footer-links">
+          <li><a href="#menu" data-filter-link="classic">Classic Liege Waffles</a></li>
+          <li><a href="#menu" data-filter-link="chocolate">Triple Chocolate Fudge</a></li>
+          <li><a href="#menu" data-filter-link="fruit">Fresh Berry Chantilly</a></li>
+          <li><a href="#menu" data-filter-link="icecream">Ice Cream Waffle Towers</a></li>
+          <li><a href="#builder">Custom Waffle Builder</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Boutique</h5>
+        <ul class="footer-links">
+          <li><a href="#about">The Golden Story</a></li>
+          <li><a href="#contact">Hours & Directions</a></li>
+          <li><a href="#contact">Event Catering</a></li>
+          <li><a href="#contact">Allergen Guide</a></li>
+          <li><a href="#contact">Franchise Inquiries</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Boutique Hours</h5>
+        <div class="footer-schedule">
+          <p><strong>Mon – Thu:</strong> 8:00 AM – 10:30 PM</p>
+          <p><strong>Fri – Sun:</strong> 8:00 AM – 11:30 PM</p>
+          <p class="warm-note"><i class="fa-solid fa-mug-hot"></i> Fresh coffee & hot waffles served all day</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-flex">
+        <p>© 2026 WAFFLE HOUSE Inc. All rights reserved. Handcrafted with passion.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Settings</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification System -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- Confetti Canvas Layer -->
+  <canvas id="confetti-canvas" class="confetti-canvas"></canvas>
+
+  <!-- JavaScript Modules -->
+  <script src="js/store.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/confetti.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/waffle-builder.js"></script>
+  <script src="js/scroll-video.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
